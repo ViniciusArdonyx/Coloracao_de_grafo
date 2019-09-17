@@ -6,4 +6,5 @@ Torna claro também, através da execução do arquivo AMPL no GLPK, que um algo
 abordando assim a importância de técnicas heurísticas para solução aproximada.
 
 Problema escolhido: Coloração de vértices
+
 Heurística escolhida: Algoritmo de coloração sequencial

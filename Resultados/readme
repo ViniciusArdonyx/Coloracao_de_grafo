@@ -1,0 +1,4 @@
+Foi utilizada a heurística Gulosa Sequencial em três formas diferentes de analisar o grafo:
+    -> Uma foi analisando os vértices de entrada conforme foi gravado na lista, do primeiro ao último. Nomeada pelo grupo apenas de Heurísca Sequencial
+    -> Uma outra forma, foi analisando os vértices por seu grau de arestas; mesmo havendo mais de um com o mesmo grau, o código pegará a mesma sequencia. Nomeada pelo grupo apenas de Heurística por Grau.
+    -> E a última, analisando os vértices de maneira randômica, que foi executado 100 vezes e analisado os quartis, desvio padrão e a variância pelo R. Nomeada pelo grupo de Heurística Randômica.

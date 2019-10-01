@@ -1,0 +1,66 @@
+//A variavel solucao, inicialmente eh passada como 0, vazia
+//listaCores, inicialmente eh passada como uma lista de tamanho = qtdVertices no grafo do tipo boolean com todas
+// as posicoes com valor False, indicando que a cor nao foi totalmente verificada no RCL
+
+fase_construtiva(graph, solucao, listaCores):
+
+	Candidatos = [] //vertices nao coloridos
+	RCL = [] //Os vertices na lista de candidatos de maior grau/maior grau dos vizinhos nao coloridos
+
+	// Copia os vertices nao coloridos para serem os candidatos
+	for v in 0 -> graph.getAmountVertices:
+		if(graph.vertices[v].cor == -1):
+			candidatos = graph.vertices[v]
+
+	if candidato == []:
+		return solucao
+
+	// Seta a quantidade de vizinhos descoloridos de cada candidato -- criterio de separacao de melhores
+	for v in 0 -> len(candidatos):
+		int qtdVizDescoloridos = 0
+
+		for n in 0 -> len(graph.vertices[v].vizinhos):
+			if (graph.vertices[n].cor == -1):
+				qtdVizDescoloridos += 1
+
+		graph.vertices[v].qtdVizDescoloridos = qtdVizDescoloridos
+
+	//Seta o RCL como sendo os melhores a partir do criterio de verificacao na lista de candidatos
+	maior = -1
+
+	for v in 0 -> len(candidatos):
+		if(graph.vertices[v].qtdVizDescoloridos > maior):
+			maior = graph.vertices[v].qtdVizDescoloridos
+			RCL = []
+			RCL = graph.vertices[v]
+		elif (graph.vertices[v].qtdVizDescoloridos == maior):
+			RCL = graph.vertices[v]
+
+	int paletaCores = graph.getAmountVertices;
+	
+	while RCL != vazio:
+
+		//Pega um vertice aleatotio dentro da RCL
+		escolhido = RCL.choice()
+
+		for n in 0 -> len(graph.vertices[escolhido].vizinhos):
+			if (graph.vertices[n].cor != -1):
+				listaCores[graph.vertices[n].cor-1] = True
+
+		for c in 0 -> len(listaCores):
+			if(listaCores[c] == False):
+				break
+
+		graph.vertices[escolhido].cor = c+1
+
+		solucao.append(graph.vertices[escolhido])
+		
+		// Remove seus vizinhos
+		for n in 0 -> len(graph.vertices[escolhido].vizinhos):
+			if (graph.vertices[n] in RCL):
+				RCL.remove(n)
+		// Remove o escolhido da RCL
+		RCL.remove(escolhido)
+
+	listaCores[c] = True
+	fase_construtiva(graph, solucao, listaCores)

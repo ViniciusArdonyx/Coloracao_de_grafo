@@ -5,6 +5,6 @@ de um problema classificado como NP-completo, o quanto aumenta as regras acresce
 Torna claro também, através da execução do arquivo AMPL no GLPK, que um algoritmo exato terá complexidade exponencial,
 abordando assim a importância de técnicas heurísticas para solução aproximada.
 
-Problema escolhido: Coloração de vértices
+Problema escolhido: Coloração de vértices.
 
-Heurística escolhida: Algoritmo de coloração sequencial
+Heurística escolhida: Algoritmo de coloração sequencial com três variantes de entrada.

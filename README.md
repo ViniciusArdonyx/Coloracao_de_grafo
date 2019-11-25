@@ -8,3 +8,12 @@ abordando assim a importância de técnicas heurísticas para solução aproxima
 Problema escolhido: Coloração de vértices
 
 Heurística escolhida: Algoritmo de coloração sequencial
+
+Metaheuristicas escolhidas: GRASP, Algoritmo Genético, Simulated Annealing
+
+Implementadas até o momento:
+    - Fase construtiva do GRASP, e a fase de busca local será o Simulated
+    - Algoritmo Genético falta apenas mutação
+    - Simulated Annealing em fase de projeto
+
+

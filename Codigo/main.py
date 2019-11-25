@@ -19,6 +19,7 @@ import sys
 import ReadFile
 import WriteMod
 import Heuristic
+import BRKGA
 
 # Pega todos os parametros informados por linha de comando
 param = sys.argv[1:]
@@ -43,3 +44,6 @@ graph.adjacentVertices()
 # Usa uma das 3 heuristicas para resolver o problema
 heuristic = Heuristic.Heuristic(url, graph, int(amountC), int(option))
 heuristic.Start()
+
+# 3 Metaheuristicas implementadas diferente (GRASP - SA - BRKGA)
+brkga = BRKGA.BRKGA(url, graph, int(amountC))

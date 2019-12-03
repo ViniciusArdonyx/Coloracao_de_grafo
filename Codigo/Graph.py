@@ -80,9 +80,45 @@ class Graph:
 
         return newList
 
+    # Imprime os vertices com suas respectivas cores
+    def printVertices(self):
+
+        # Auxiliar para contador
+        i = 0
+
+        # Auxiliar string
+        string = "Qtde Cores: [" + str(self.checkColor()) + "]\n"
+
+        # Percorre os vertices
+        for vertex in self.getVertices():
+
+            # Imprime seu nome e sua cor
+            string += "V[" + str(i) + "] = " + str(vertex.getColor()) + "\n"
+            i += 1
+
+        return string
+
+    # Verifica com quantas cores o grafo esta pintado
+    def checkColor(self):
+
+        # Lista de cores
+        colors = []
+
+        # Percorre os vertices
+        for vertex in self.getVertices():
+
+            # Verifica se a cor esta na lista de cores
+            if vertex.getColor() not in colors:
+
+                # Insere na lista
+                colors.append(vertex.getColor())
+
+        # A quantidade de cores eh o tamanho da lista
+        return len(colors), sum(colors)
 
     # Imprime na tela os atributos do grafo
     def toString(self):
+
         string = "Qtde Vértices: [" + str(self.amountV) + "]\n"
         string += "Qtde Arestas: [" + str(self.amountE) + "]\n\n"
         

@@ -5,9 +5,9 @@ import random
 import time
 import timeit
 import os.path
-# import GRASP
+import GRASP
 import SA
-# import BRKGA
+import BRKGA
 
 class Metaheuristic:
 
@@ -31,8 +31,8 @@ class Metaheuristic:
 
 		begin = timeit.default_timer()
 
-		# grasp = GRASP.GRASP()
-		# cores_usadas = grasp.execute()
+		grasp = GRASP.GRASP()
+		cores_usadas = grasp.runGrasp(self.graph, 10)
 
 		end = timeit.default_timer()
 
@@ -45,7 +45,7 @@ class Metaheuristic:
 		begin = timeit.default_timer()
 
 		sa = SA.SA()
-		cores_usadas, self.graph = sa.execute(self.graph, 10000, 20, 0.95, 1000)
+		cores_usadas, self.graph = sa.runSa(self.graph, 10000, 20, 0.95, 1000, True, None, None)
 		
 		end = timeit.default_timer()
 
@@ -57,8 +57,8 @@ class Metaheuristic:
 		
 		begin = timeit.default_timer()
 
-		# brkga = BRKGA.BRKGA()
-		# cores_usadas = brkga.execute()
+		brkga = BRKGA.BRKGA(self.url, self.graph, self.H)
+		cores_usadas = brkga.brkgaRun()
 	
 		end = timeit.default_timer()
 

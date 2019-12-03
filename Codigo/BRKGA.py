@@ -17,9 +17,6 @@ class BRKGA:
         self.graph = graph
         self.H = H
 
-        print('Wait, running BRKGA...\n')
-        self.brkgaRun()
-
     # Pega a informacao de quantidade de cores usadas no grafo
     def takeColors(self, individuo):
         return individuo[2]
@@ -261,4 +258,4 @@ class BRKGA:
         population.sort(key=self.takeColors)
 
         # Mostra qual foi a melhor solucao na populacao final
-        print(population[0])
+        return population[0][2]

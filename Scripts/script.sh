@@ -10,6 +10,6 @@ do
 	do
 		#echo "\t" $j
 		#python3 main.py ./Instâncias/myciel5.col 9 $i
-		python3 ./../Codigo/main.py ./../Instâncias/myciel6.col 95 3
+		python3 ./../Codigo/main.py ./../Instâncias/myciel6.col 95 3 -m
 	done
 done

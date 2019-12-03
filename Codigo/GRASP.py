@@ -1,15 +1,13 @@
 import random
+import SA
 
 class GRASP:
 	# Construtor
-	def __init__(self, graph):
+	def __init__(self):
 		# A variavel solucao, inicialmente eh passada como None, vazia
-		self.solution = []
+		# self.solution = []
 		# ListColors, inicialmente eh passada como uma lista de tamanho = qtdVertices no grafo do tipo boolean com todas as posicoes com valor False, indicando que a cor nao foi totalmente verificada no RCL
-		self.listColors = self.initListColors(graph)
-
-		# Roda o GRASP
-		self.runGrasp(graph)
+		self.listColors = []
 
 	# Resetar as cores dos vertices do grafo com incolor (-1)
 	def resetGraph(self, graph):
@@ -43,7 +41,7 @@ class GRASP:
 		
 		# Se nao houver candidatos, retorna a solucao que encontrou
 		if(candidatos == []):
-			return self.solution
+			return graph
 
 		# Passa todos os id's no dicionario para uma lista, facilitando o passeio no for abaixo
 		listAux = list(vizDescoloridos)
@@ -87,8 +85,6 @@ class GRASP:
 			indice = graph.getVertices().index(escolhido)
 			graph.getVertices()[indice].setColor(c)
 			
-			self.solution.append(graph.getVertices()[indice])
-			
 			# Remove seus vizinhos
 			for n in escolhido.getNeighbor():
 				if(graph.getVertices()[n] in rcl):
@@ -100,14 +96,57 @@ class GRASP:
 		# Seta a cor como usada
 		self.listColors[c] = True
 		# Chama recursivamente a fease construtiva
-		self.constructivePhase(graph)
-	
-	def runGrasp(self, graph):
-		# Reseta as cores do grafo
-		self.resetGraph(graph)
-		# Chama a fase construtiva do GRASP
-		self.constructivePhase(graph)
+		return self.constructivePhase(graph)
 
-		# Escreve a solucao inicial da fase construtiva
-		for noh in self.solution:
-			print(noh.getColor())
+	# Retorna uma lista de vertices coloridos com cores diferentes (pior caso)
+	def initialSolution(self, graph):
+
+		vertices = []
+
+		i = 0
+
+		for vertex in graph.getVertices():
+
+			vertex.setColor(i)
+
+			i += 1
+
+			vertices.append(vertex)
+
+		return vertices
+
+	def updateSolution(self, solution, solutionColors, bestSolution, bestSolutionColors):
+		
+		delta = solutionColors - bestSolutionColors
+
+		if delta < 0:
+			return solution, solutionColors
+		else:
+			return bestSolution, bestSolutionColors
+
+	def runGrasp(self, graph, maxIter):
+
+		bestSolution = self.initialSolution(graph)
+		bestSolutionColors, sumOfBestColors = graph.checkColor()
+
+		for i in range(maxIter):
+	
+			# Reseta as cores do grafo
+			self.resetGraph(graph)
+
+			# ListColors, inicialmente eh passada como uma lista de tamanho = qtdVertices no grafo do tipo boolean com todas as posicoes com valor False, indicando que a cor nao foi totalmente verificada no RCL
+			self.listColors = self.initListColors(graph)
+
+			# Chama a fase construtiva do GRASP
+			newGraph = self.constructivePhase(graph)
+
+			solutionColors, sumOfColors = newGraph.checkColor()
+
+			sa = SA.SA()
+			solutionColors, graph = sa.runSa(None, 10000, 20, 0.95, 1000, False, newGraph, solutionColors)
+
+			solution = graph.getVertices().copy()
+
+			bestSolution, bestSolutionColors = self.updateSolution(solution, solutionColors, bestSolution, bestSolutionColors)
+
+		return bestSolutionColors

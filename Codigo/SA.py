@@ -137,13 +137,15 @@ class SA:
 	#
 	# Simulated Annealing para o problema de coloracao de grafos
 	#
-	def execute(self, graph, initialTemp, finalTemp, alpha, saMax):
+	def runSa(self, graph, initialTemp, finalTemp, alpha, saMax, pure, solution, objetive):
 
 		# Define a temperatura inicial do sistema
 		temp = initialTemp
 
-		# Cria a solucao incial do problema
-		(solution, objetive, sumOfColor) = self.initialSolution(graph)
+		# Utiliza o SA puro
+		if pure:
+			# Cria a solucao incial do problema
+			(solution, objetive, sumOfColor) = self.initialSolution(graph)
 
 		# Melhor grafo encontrado
 		overall = solution

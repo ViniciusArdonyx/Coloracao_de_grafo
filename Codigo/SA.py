@@ -17,14 +17,30 @@ class SA:
 	# Cria a solucao incial do problema, eh usada uma heuristica randomica feita pelo proprio grupo
 	#
 	def initialSolution(self, graph):
-		return self.HeuristicRandom(graph)
+
+		i = 0
+
+		# Percorre todos os vertices do grafo
+		for vertex in graph.getVertices():
+
+			# Todos os vertices teram cores diferentes
+			vertex.setColor(i)
+
+			i += 1
+
+		(amountColor, sumOfColor) = graph.checkColor()
+
+		return graph, amountColor, sumOfColor
+
+
+		# return self.HeuristicRandom(graph)
 	#
 	# Gera um solucao S' de N(S)
 	#
 	def generateNewSolution(self, graph, amountColor):
 
 		# Laco ate randomizar um vertice que tenha cores validas
-		while True:
+		for aux in range(5):
 
 			# Randomiza um vertice do grafo
 			index = random.randint(0, graph.getAmountV() - 1)
@@ -51,6 +67,8 @@ class SA:
 			# Apenas se tiver cor na lista
 			if len(validColors) != 0:
 
+				aux = 0
+
 				# Randomiza uma cor valida
 				# color = random.choice(validColors)
 
@@ -64,76 +82,45 @@ class SA:
 				(amountColor, sumOfColor) = graph.checkColor()
 
 				return graph, amountColor, sumOfColor
-	#
-	# Heuristica: "Coloracao Aleatoria"
-    # A ordem do vetor eh randomica
-    #
-	def HeuristicRandom(self, graph):
 
-		incolor = -1
+		# Nao encontrou um vertice randomizado valido entao percorre todos os vertices procurando um valido
+		for vertex in graph.getVertices():
 
-		# Cores usadas ate o momento, coloracao parcial valida
-		cores_usadas = 0
+			# Cor deste vertice
+			color = vertex.getColor()
 
-		# Uma lista para controlar a disponibilidade das cores. H eh a quantidade maxima de cores a serem utilizadas
-		disponivel = [True] * graph.getAmountV()
+			# Cores dele dos vizinhos dele
+			invalidColors = []
 
-		listV = []
-		listAux = []
+			# Insere a cor do vertice
+			invalidColors.append(color)
 
-		# Seta todos os vertices do grafo como incolor
-		for v in range(0, graph.getAmountV(), 1):
-		    graph.getVertices()[v].setColor(incolor)
-		    listV.append(v)
+			# Cores dos vizinhos
+			for i in vertice.getNeighbor():
+				invalidColors.append(graph.getVertices()[i].getColor())
 
-		for v in range(0, graph.getAmountV(), 1):
-		    i = 0
-		    if(cores_usadas != 0):
-		        # Inicialmente, suponhe-se que as cores ja usadas estejam disponivel
-		        for i in range(0, cores_usadas, 1):
-		            disponivel[i] = True
+			# Cores validas
+			validColors = [i for i in range(amountColor) if i not in invalidColors]
 
-            # Randomiza um vertice
-		    num = random.choice(listV)
+			# Apenas se tiver cor na lista
+			if len(validColors) != 0:
 
-		    # Randomiza soh os vertices que ainda nao foram usados
-		    while num in listAux:
-		    	num = random.choice(listV)
-		    listAux.append(num)
+				aux = 0
 
-		    # Pega a lista de vizinhos do vertice num
-		    listneighbor = graph.getVertices()[num].getNeighbor()
+				# Randomiza uma cor valida
+				# color = random.choice(validColors)
 
-		    if(listneighbor != []):
-		        # Se o vizinho estiver pintado com alguma cor, informa que aquela cor nao esta disponivel
-		        for n in range(0, len(listneighbor), 1):
-		            i = graph.getVertices()[(listneighbor[n])].getColor()
+				# Pega a menor cor dentre as validas
+				color = min(validColors)
 
-		            # Se o vertice vizinho esta colorido
-		            if(i != incolor):
-		                disponivel[i] = False
+				# Adiciona a nova cor ao vertice randomizado
+				graph.getVertices()[index].setColor(color)
 
-		    i = 0
-		    # Percorre entre as cores ja usadas no grafo, em busca de uma cor que esteja disponivel
-		    for i in range(0, graph.getAmountV(), 1):
-		        if(disponivel[i]):
-		            break
+				# A quantidade de cores pode ter sido alterada
+				(amountColor, sumOfColor) = graph.checkColor()
 
-		    if(i < (cores_usadas-1)):
-		        graph.getVertices()[v].setColor(i)
-		    else:
-		        graph.getVertices()[v].setColor(cores_usadas)
-		        cores_usadas= cores_usadas + 1
+				return graph, amountColor, sumOfColor
 
-		    # Se a quantidade de cores usadas para colorir o grafo for maior 
-		    # que o tamanho da paleta de cores dada inicialmente, termina a execucao
-		    if(cores_usadas > graph.getAmountV()):
-		        print("\t* Aviso: A quantidade de cores usadas no grafo excedeu o tamanho da paleta de cores H.\n")
-		        break
-
-		(amountColor, sumOfColor) = graph.checkColor()
-
-		return graph, cores_usadas, sumOfColor
 	#
 	# Simulated Annealing para o problema de coloracao de grafos
 	#
@@ -202,6 +189,8 @@ class SA:
 
 				# Incrementa a iteracao
 				iteration += 1
+
+			# print(temp)
 
 			# Atualiza a temperatura utilizando algum esquema de resfriamento
 			# 	Usando o esquema Geometrico

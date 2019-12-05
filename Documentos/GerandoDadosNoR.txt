@@ -1,0 +1,55 @@
+data <- read.table(file="fpsol2.i.1GRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+data <- read.table(file="inithx.i.1GRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+data <- read.table(file="inithx.i.3GRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+data <- read.table(file="le450_5aGRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+data <- read.table(file="le450_25dGRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+data <- read.table(file="miles250GRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+data <- read.table(file="miles1500GRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+data <- read.table(file="myciel3GRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+data <- read.table(file="qg.order60GRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+data <- read.table(file="queen5_5GRASP.txt", header=T)
+summary(data$cor)
+sd(data$cor)
+sd(data$cor)^2
+
+boxplot(data$cor, main = "Boxplot nomeArquivo - Cor", xlab="Cores usadas", horizontal=T)
+boxplot(data$tempo, main = "Boxplot nomeArquivo - Tempo", xlab="Tempo gasto", horizontal=T)
+hist(data$cor, main = "Histograma nomeArquivo - Cor", xlab="Cores usadas", ylab="Frequência", labels=T)
+hist(data$tempo, main = "Histograma nomeArquivo - Tempo", xlab="Tempo gasto", ylab="Frequência", labels=T)
+dev.off()

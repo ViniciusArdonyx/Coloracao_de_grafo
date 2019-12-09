@@ -86,6 +86,12 @@ class BRKGA:
         
         return colorsNeighbors
     
+    # Retorna o indice onde se encontra o elemento 'valor' na lista de originais
+    def getIndexChave(self, lOriginal, valor, listIndice):
+        for i in range(0, len(lOriginal), 1):
+            if((lOriginal[i] == valor) and (i not in listIndice)):
+                return i
+
     # Decoder BRKGA:
     def decoder(self, randKeysSorting):
         # Dicionario auxiliar das chaves ordenadas de todos os candidatos
@@ -103,13 +109,12 @@ class BRKGA:
         for key in range(0, len(listIndex), 1):
             lOriginal = randKeysSorting[listIndex[key]]
             lAuxiliar = randAux[listIndex[key]]
-            color = 0
             collided = False
             lVertex = []
+            listIndices = []
 
             # Adiciona a cor 0 na lista de cores usadas
             usedColors = [0]
-
             # Ordena as lista de chaves
             lAuxiliar.sort()
 
@@ -120,9 +125,12 @@ class BRKGA:
             # Comeca a colorir o grafo do candidato atual analisando cada chave
             for i in range(0, len(lAuxiliar), 1):
                 # Retorna o index (qual noh corresponde no grafo)
-                indice = lOriginal.index(lAuxiliar[i])
+                indice = self.getIndexChave(lOriginal, lAuxiliar[i], listIndices)
+                listIndices.append(indice)
                 # Pega indice dos vizinhos
                 vizinhos = self.graph.getVertices()[indice].getNeighbor()
+                # Color eh atualizada para receber a ultima cor da paleta de cores
+                color = usedColors[len(usedColors)-1]
 
                 # Pita o vertice com a ultima cor na paleta de cores
                 if self.graph.getVertices()[indice].getColor() == -1:
@@ -138,9 +146,9 @@ class BRKGA:
                     if self.graph.getVertices()[indice].getColor() in coresVizinho:
                         # Tenta reutilizar uma cor existente na paleta de cores que nao colide com nenhuma cor dos vizinhos
                         for c in usedColors:
-                            if(not(c in coresVizinho)):
+                            if(c not in coresVizinho):
                                 collided = False
-                                self.graph.getVertices()[indice].setColor(c)
+                                color = c
                                 break
                             else:
                                 collided = True
@@ -149,12 +157,13 @@ class BRKGA:
                         if(collided):
                             color += 1
                             usedColors.append(color)
-                            self.graph.getVertices()[indice].setColor(color)
+                            
+                        self.graph.getVertices()[indice].setColor(color)
 
                 for i in range(0, self.graph.getAmountV(), 1):
                     # Se o indice nao estah nos indices dos vizinhos, e o vertice com o respectivo 
                     # indice nao foi colorido adiciono a cor a ele:
-                    if (i not in vizinhos) and (self.graph.getVertices()[i].getColor() == -1):
+                    if((i not in vizinhos) and (self.graph.getVertices()[i].getColor() == -1)):
                         self.graph.getVertices()[i].setColor(color)
             
             # Para cada vertece no grafo, cria-se um objeto vertex para guardar as informacoes
@@ -250,7 +259,6 @@ class BRKGA:
 
             # Atualiza populacao
             population = populationG.copy()
-
             # Geracao g+1
             g += 1
         

@@ -7,7 +7,6 @@ abordando assim a importância de técnicas heurísticas para solução aproxima
 
 Problema escolhido: Coloração de vértices.
 
-<<<<<<< HEAD
 Heurística escolhida: Algoritmo de coloração sequencial com três variantes de entrada.
 
 Metaheuristicas escolhidas: GRASP, BRKGA, Simulated Annealing
